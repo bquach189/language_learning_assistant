@@ -6,21 +6,21 @@
       height: 100%;
     }
 
-    .messages-box {
+    .msg-box {
       flex: 1;
       overflow-y: auto;
     }
 
-    .messages-list {
+    .msg-list {
       padding-left: 0;
     }
 
-    .message {
+    .msg {
       margin-bottom: 15px;
       list-style: none;
     }
 
-    .message-text {
+    .msg-text {
       padding: 10px;
       border-radius: 5px;
     }
@@ -35,7 +35,7 @@
       align-self: flex-start;
     }
 
-    .message-form {
+    .msg-form {
       display: flex;
       position: fixed;
       bottom: 0;
@@ -45,7 +45,7 @@
       background-color: #f8f9fa;
     }
 
-    .message-input {
+    .msg-input {
       flex: 1;
       border-radius: 0;
       border-right: none;
@@ -68,16 +68,16 @@
 <div class="chat-container">
   <div class="card flex-grow-1">
     <div class="card-header bg-primary text-white">Chat</div>
-    <div class="card-body messages-box">
+    <div class="card-body msg-box">
       
-      <ul class="list-unstyled messages-list">
+      <ul class="list-unstyled msg-list">
         
-        <li class="message received">
-          <div class="message-text">
-            <div class="message-sender">
-              <b>AI Chatbot</b>
+        <li class="msg received">
+          <div class="msg-text">
+            <div class="msg-sender">
+              <b>Language Learning Assistant</b>
             </div>
-            <div class="message-content">
+            <div class="msg-content">
               Welcome, I am your Language Learning Assistant. You can ask me anything regarding language learning.
             </div>
           </div>
@@ -89,10 +89,10 @@
     <br><br>
     <br><br>
   </div>
-  <form class="message-form">
+  <form class="msg-form">
     {%csrf_token%}
     <div class="input-group">
-      <input type="text" class="form-control message-input" placeholder="Type your message...">
+      <input type="text" class="form-control msg-input" placeholder="Type your message...">
       <div class="input-group-append">
         <button type="submit" class="btn btn-primary btn-send">Send</button>
       </div>
@@ -100,5 +100,55 @@
   </form>
 </div>
 
+<script>
+  const msgList = document.querySelector('.msg-list');
+  const msgForm = document.querySelector('.msg-form');
+  const msgInput = document.querySelector('.msg-input');
+
+  msgForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const msg = msgInput.value.trim();
+    if(msg.length === 0) {
+      return;
+    }
+
+    const msgItem = document.createElement('list');
+    msgItem.classList.add('msg', 'sent');
+    msgItem.innerHTML = `
+      <div class = "msg-text">
+        <div class = "msg-sender">
+          <b>Me</b>
+        </div>
+        <div class = "msg-content">
+          ${msg}
+        </div>
+      </div>`;
+      msgList.appendChild(msgItem);
+
+      msgInput.value = '';
+
+      fetch('', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+          'msg': message
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          const response = data.response;
+          const msgItem = document.createElement('list');
+          msgItem.classList.add('msg', 'received');
+          msgItem.innerHTML = `
+          <div class = "msg-text">
+            <div class = "msg-sender">
+              <b>Language Learning Assistant</b>
+            </div>
+            <div class = "msg-content">
+        })
+  })
+</script>
 
 {% endblock %}
