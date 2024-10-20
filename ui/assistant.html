@@ -53,6 +53,7 @@
 
     .btn-send {
       border-radius: 0;
+      background-color:black
     }
 
     .chat-container {
@@ -67,7 +68,7 @@
 {% block content %}
 <div class="chat-container">
   <div class="card flex-grow-1">
-    <div class="card-header bg-primary text-white">Chat</div>
+    <div class="card-header text-black">Language Learning Assistant</div>
     <div class="card-body msg-box">
       
       <ul class="list-unstyled msg-list">
@@ -147,6 +148,10 @@
               <b>Language Learning Assistant</b>
             </div>
             <div class = "msg-content">
+                ${response}
+            </div>
+          </div>
+          `;
         })
   })
 </script>
