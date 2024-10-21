@@ -16,7 +16,7 @@ def call_ai(msg, client_instance):
             {"role": "user", "content": msg},       
         ],
         max_tokens = 200,
-        temperature = 2,
+        temperature = 0.2,
     )
         final = response.choices[0].message.content
         return final
