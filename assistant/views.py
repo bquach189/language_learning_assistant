@@ -1,7 +1,10 @@
 import os
 from django.shortcuts import render
 from django.http import JsonResponse
+<<<<<<< HEAD
 from django.contrib import auth
+=======
+>>>>>>> b6cda64df0d199f5aa1f697122370cf2d0528f63
 import openai
 from openai import OpenAI
 
@@ -9,6 +12,7 @@ openai.api_key = os.environ['OPENAI_API_KEY']
 
 client = OpenAI()
 
+<<<<<<< HEAD
 def register(request):
     if request.method == 'POST':
         user = request.POST.get('username', '')
@@ -32,6 +36,8 @@ def login(request):
 def logout(request):
     auth.logout(request)
 
+=======
+>>>>>>> b6cda64df0d199f5aa1f697122370cf2d0528f63
 def call_ai(msg, client_instance):
         response = client_instance.chat.completions.create(
         model = 'gpt-3.5-turbo',
