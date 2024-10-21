@@ -26,7 +26,6 @@
     }
 
     .sent {
-      background-color: #dcf8c6;
       align-self: flex-end;
     }
 
@@ -114,7 +113,7 @@
       return;
     }
 
-    const msgItem = document.createElement('list');
+    const msgItem = document.createElement('li');
     msgItem.classList.add('msg', 'sent');
     msgItem.innerHTML = `
       <div class = "msg-text">
@@ -134,13 +133,13 @@
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
           'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-          'msg': message
+          'msg': msg
         })
       })
         .then(response => response.json())
         .then(data => {
           const response = data.response;
-          const msgItem = document.createElement('list');
+          const msgItem = document.createElement('li');
           msgItem.classList.add('msg', 'received');
           msgItem.innerHTML = `
           <div class = "msg-text">
@@ -152,6 +151,7 @@
             </div>
           </div>
           `;
+          msgList.appendChild(msgItem);
         })
   })
 </script>
