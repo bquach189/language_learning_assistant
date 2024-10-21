@@ -78,7 +78,7 @@
               <b>Language Learning Assistant</b>
             </div>
             <div class="msg-content">
-              Welcome, I am your Language Learning Assistant. You can ask me anything regarding language learning.
+              Welcome {{user.username}}, I am your Language Learning Assistant. You can ask me anything regarding language learning.
             </div>
           </div>
         </li>
@@ -118,7 +118,7 @@
     msgItem.innerHTML = `
       <div class = "msg-text">
         <div class = "msg-sender">
-          <b>Me</b>
+          <b>{{user.username}}</b>
         </div>
         <div class = "msg-content">
           ${msg}

@@ -1,7 +1,8 @@
 import os
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib import auth
+from django.contrib.auth.models import User
 import openai
 from openai import OpenAI
 
@@ -11,15 +12,19 @@ client = OpenAI()
 
 def register(request):
     if request.method == 'POST':
-        user = request.POST.get('username', '')
-        email = request.POST.get('email', '')
-        pw = request.POST.get('pw', '')
-        confirm_pw = request.POST.get('confirm_pw', '')
+        username = request.POST['username']
+        email = request.POST['email']
+        pw = request.POST['pw']
+        confirm_pw = request.POST['confirm_pw']
         if pw == confirm_pw:
             try:
-                pass
+                user = User.objects.create_user(username, email, pw)
+                user.save()
+                auth.login(request, user)
+                return redirect('assistant')
             except:
-                pass
+                error_msg = "There was an issue creating your account."
+                return render(request, 'register.html', {'error_msg': error_msg})
         else:
             error_msg = 'Please make sure both passwords match.'
             return render(request, 'register.html', {'error_msg': error_msg})
