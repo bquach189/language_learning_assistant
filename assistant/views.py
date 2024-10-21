@@ -14,13 +14,14 @@ def call_ai(msg):
         stop = None,
         temperature = 0.7,
     )
-    final = response.choice[0].text.strip()
+    final = response.choice[0].text
+    return final
     
 # Create your views here.
 
 def assistant(request):
     if request.method == 'POST':
         msg = request.POST.get('msg')
-        response = 'Hi there'
+        response = call_ai(msg)
         return JsonResponse({'msg': msg, 'response': response})
     return render(request, 'assistant.html')
