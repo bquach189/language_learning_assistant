@@ -92,6 +92,35 @@
             </div>
           </div>
         </li>
+        
+        {% if user.is_authenticated %}
+          {% for chat in chats %}
+            {% if chat.user == request.user %}
+            <li class="msg sent">
+            <div class="msg-text">
+              <div class="msg-sender">
+                <b>{{user.username}}</b>
+              </div>
+              <div class="msg-content">
+                {{chat.msg}}
+              </div>
+            </div>
+          </li>
+
+          <li class="msg received">
+            <div class="msg-text">
+              <div class="msg-sender">
+                <b>Language Learning Assistant</b>
+              </div>
+              <div class="msg-content">
+                {{chat.response}}
+              </div>
+            </div>
+          </li>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
       </ul>
       
     </div>

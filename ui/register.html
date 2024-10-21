@@ -57,6 +57,14 @@
   button[type=submit]:hover {
     background-color: #0062cc;
   }
+  .alert-danger {
+    background-color: #ffffff;
+    color: #ffffff;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #000000;
+    border-radius: 4px;
+  }
   
 </style>
 {% endblock %}
@@ -66,8 +74,8 @@
   <div class="card">
     <div class="card-header">Register</div>
     <div class="card-body">
-      {% if error_message %}
-        <div class="alert alert-danger" role="alert">{{ error_message }}</div>
+      {% if error_msg %}
+        <div class="alert alert-danger" role="alert" style="color:black">{{ error_msg }}</div>
       {% endif %}
       <form method="post">
         {% csrf_token %}

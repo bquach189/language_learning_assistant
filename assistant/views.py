@@ -3,8 +3,10 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib import auth
 from django.contrib.auth.models import User
+from django.utils import timezone
 import openai
 from openai import OpenAI
+from .models import Chat
 
 openai.api_key = os.environ['OPENAI_API_KEY']
 
@@ -64,11 +66,14 @@ def call_ai(msg, client_instance):
 # Create your views here.
 
 def assistant(request):
+    chats = Chat.objects.filter(user=request.user)
     if request.method == 'POST':
         msg = request.POST.get('msg')
         response = call_ai(msg, client)
+        chat = Chat(user=request.user, msg=msg, response=response, created_at=timezone.now())
+        chat.save()
         return JsonResponse({'msg': msg, 'response': response})
-    return render(request, 'assistant.html')
+    return render(request, 'assistant.html',{'chats':chats})
 
 
     
