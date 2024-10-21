@@ -32,10 +32,22 @@ def register(request):
     return render(request, 'register.html')
 
 def login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        pw = request.POST['pw']
+        user = auth.authenticate(request, username=username, password=pw)
+        if user is not None:
+            auth.login(request, user)
+            return redirect('assistant')
+        else:
+            error_msg = 'Password or Username is incorrect.'
+            return render(request, 'login.html', {'error_msg': error_msg})
+        
     return render(request, 'login.html')
 
 def logout(request):
     auth.logout(request)
+    return redirect('login')
 
 def call_ai(msg, client_instance):
         response = client_instance.chat.completions.create(
