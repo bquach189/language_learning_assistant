@@ -28,7 +28,7 @@ def register(request):
                 error_msg = "There was an issue creating your account."
                 return render(request, 'register.html', {'error_msg': error_msg})
         else:
-            error_msg = 'Please make sure both passwords match.'
+            error_msg = 'Please try again.'
             return render(request, 'register.html', {'error_msg': error_msg})
             
     return render(request, 'register.html')
