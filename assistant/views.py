@@ -33,6 +33,7 @@ def register(request):
             
     return render(request, 'register.html')
 
+
 def login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -47,29 +48,46 @@ def login(request):
         
     return render(request, 'login.html')
 
+
 def logout(request):
     auth.logout(request)
     return redirect('login')
 
-def call_ai(msg, client_instance):
+
+def get_previous_chats(user):
+    return Chat.objects.filter(user=user).order_by('-created_at')[:8]
+
+
+def create_context(previous_chats):
+    context = ""
+    for chat in previous_chats:
+        context += f":User {chat.msg}\nAssistant: {chat.response}\n"
+    return context
+
+def call_ai(context, msg, client_instance):
+        prompt = context + f":User  {msg}\nAssistant:"
         response = client_instance.chat.completions.create(
         model = 'gpt-3.5-turbo',
         messages = [
-            { "role": "system", "content": "You are a Language Learning Assistant Chatbot." },
-            {"role": "user", "content": msg},       
+            { "role": "system", "content": "You are a Language Learning Assistant Chatbot. "
+                "You are here to help users learn a new language, please politely refuse to respond to off-topic requests."
+                "Be polite and friendly." },
+            {"role": "user", "content": prompt},       
         ],
         max_tokens = 200,
         temperature = 0.2,
     )
         final = response.choices[0].message.content
         return final
-# Create your views here.
+
 
 def assistant(request):
     chats = Chat.objects.filter(user=request.user)
     if request.method == 'POST':
         msg = request.POST.get('msg')
-        response = call_ai(msg, client)
+        previous_chats = get_previous_chats(request.user)
+        context = create_context(previous_chats)
+        response = call_ai(context, msg, client)
         chat = Chat(user=request.user, msg=msg, response=response, created_at=timezone.now())
         chat.save()
         return JsonResponse({'msg': msg, 'response': response})
