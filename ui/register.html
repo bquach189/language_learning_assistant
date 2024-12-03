@@ -72,8 +72,8 @@
 {% block content %}
 <div class="register-container">
   <div class="card">
+    <div class="card-header">Language Learning Assistant</div>
     <div class="card-header">Register</div>
-    <div class="card-header text-white"><a style="color: white" href="login">Already signed up? Login</a></div>
     <div class="card-body">
       {% if error_msg %}
         <div class="alert alert-danger" role="alert" style="color:black">{{ error_msg }}</div>
@@ -98,6 +98,9 @@
         </div>
         <button type="submit">Register</button>
       </form>
+      <div class="login-option">
+        <p>Already have an account? <a href="login">Login here.</a></p>
+      </div>
     </div>
   </div>
 </div>
