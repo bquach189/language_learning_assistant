@@ -65,7 +65,6 @@ def create_context(previous_chats):
     return context
 
 
-
 def call_ai(context, msg, client_instance):
         prompt = context + f":User  {msg}\nAssistant:"
         response = client_instance.chat.completions.create(
@@ -78,7 +77,7 @@ def call_ai(context, msg, client_instance):
                 "When asked to translate a sentence, please provide the translation and a brief explanation of any nuances."
                 "When practicing conversation, please provide feedback on the user's grammar at the end of the conversation."
                 "When asked to provide quizzes for languages, please provide 5 questions, giving correct answers and explanations after each question."
-                "When the user provides answers for the quiz, ensure you are giving answers for the most recent quiz, and count the number of correct answers out of 5."
+                "When the user provides answers for the quiz, ensure you are giving answers for the most recent quiz, and count the number of correct answers out of 5, e.g. 'Quiz Score: 5/5'."
                 "Be polite and friendly." },
             {"role": "user", "content": prompt},       
         ],
