@@ -7,6 +7,11 @@ class Chat(models.Model):
     msg = models.TextField()
     response = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+class UserScore(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    total_achieved_score = models.IntegerField(default=0)
+    total_possible_score = models.IntegerField(default=0)
     
     def __str__(self):
         return f'{self.user.username}: {self.msg}'
