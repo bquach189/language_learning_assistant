@@ -84,7 +84,7 @@
             </div>
             {% if user.is_authenticated %}
             <div class="msg-content">
-              Welcome {{user.username}}, I am your Language Learning Assistant. You can ask me anything regarding language learning.
+              Welcome {{user.username}}, I am your Language Learning Assistant. You can request practice quizzes, conversation practice, or language facts.
             {% else %}
             <div class="msg-content">
               Welcome User, please consider registering so I can assist you to the fullest!
@@ -133,6 +133,7 @@
     <div class="input-group">
       <input type="text" class="form-control msg-input" placeholder="Type your message...">
       <div class="input-group-append">
+        <button type="button" class="btn btn-secondary btn-speech" id="'speech-btn">Mic</button>
         <button type="submit" class="btn btn-primary btn-send">Send</button>
       </div>
     </div>
@@ -143,6 +144,26 @@
   const msgList = document.querySelector('.msg-list');
   const msgForm = document.querySelector('.msg-form');
   const msgInput = document.querySelector('.msg-input');
+  const speechBtn = document.querySelector('.speech-btn');
+
+  function speechRecognition() {
+    const recognize = new(window.SpeechRecognition || window.webkit.SpeechRecognition)();
+    recognize.lang = 'en-US';
+    recognize.interimResults = false;
+
+    recognize.onresult = (event) => {
+      const reading = event.result[0][0].transcript;
+      msgInput.value = reading;
+    };
+
+    recognize.onerror = (event) => {
+      console.error(event.error);
+    };
+
+    recognize.start();
+  }
+
+  speechBtn.addEventLister('click', startSpeechRecognition);
 
   msgForm.addEventListener('submit', (event) => {
     event.preventDefault();
