@@ -41,7 +41,7 @@
       left: 0;
       right: 0;
       padding: 10px;
-      background-color: #f8f9fa;
+      background-color: #f2f3f4;
     }
 
     .msg-input {
@@ -50,9 +50,14 @@
       border-right: none;
     }
 
+    .btn-listening {
+      background-color: #ff0000;
+      color: #ffffff;
+    }
+
     .btn-send {
       border-radius: 0;
-      background-color:black
+      background-color:#000000
     }
 
     .chat-container {
@@ -133,7 +138,7 @@
     <div class="input-group">
       <input type="text" class="form-control msg-input" placeholder="Type your message...">
       <div class="input-group-append">
-        <button type="button" class="btn btn-secondary btn-speech" id="'speech-btn">Mic</button>
+        <button type="button" class="btn btn-secondary btn-speech" id="speech-btn">Mic</button>
         <button type="submit" class="btn btn-primary btn-send">Send</button>
       </div>
     </div>
@@ -143,27 +148,58 @@
 <script>
   const msgList = document.querySelector('.msg-list');
   const msgForm = document.querySelector('.msg-form');
-  const msgInput = document.querySelector('.msg-input');
-  const speechBtn = document.querySelector('.speech-btn');
+  const msgInput = document.querySelector('#msg-input');
+  const speechBtn = document.querySelector('#speech-btn');
+
+  let listening = false;
+  let recognize;
 
   function speechRecognition() {
-    const recognize = new(window.SpeechRecognition || window.webkit.SpeechRecognition)();
+    const recognize = new(window.SpeechRecognition || window.webkitSpeechRecognition)();
     recognize.lang = 'en-US';
+    recognize.maxAlternatives = 1;
     recognize.interimResults = false;
 
     recognize.onresult = (event) => {
-      const reading = event.result[0][0].transcript;
-      msgInput.value = reading;
+      const transcript = event.results [0][0].transcript; 
+      msgInput.value = transcript; 
+      msgInput.focus(); 
     };
 
     recognize.onerror = (event) => {
       console.error(event.error);
     };
 
+    recognize.onend = () => {
+      console.log('Speech recognition done');
+      listening = false;
+      updateButton();
+    }
+
     recognize.start();
   }
 
-  speechBtn.addEventLister('click', startSpeechRecognition);
+  function toggleListening() {
+    if(listening) {
+      recognize.stop();
+    } else {
+      speechRecognition();
+    }
+    listening = !listening;
+    updateButton();
+  }
+
+  function updateButton() {
+    if (listening) {
+      speechBtn.classList.add('listening');
+      speechBtn.textContent = 'Stop';
+    } else {
+      speechBtn.classList.remove('listening');
+      speechBtn.textContent = 'Mic';
+    }
+  }
+
+  speechBtn.addEventListener('click', toggleListening);
 
   msgForm.addEventListener('submit', (event) => {
     event.preventDefault();
