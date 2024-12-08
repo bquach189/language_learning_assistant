@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}Settings{% endblock %}
+{% block title %}Quiz Scores{% endblock %}
 
 {% block styles %}
 <style>
   body {
     background-color: #f0f0f0;
   }
-  .settings-container {
+  .scores-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,15 +42,14 @@
 {% endblock %}
 
 {% block content %}
-<div class="settings-container">
+<div class="scores-container">
   <div class="card">
-    <div class="card-header">Settings</div>
+    <div class="card-header">Your Quiz Scores</div>
     <div class="card-body">
-      <div class="scores-button">
-        <a href="scores" class="btn btn-primary">Scores</a>
-      </div>
+      <h2>Overall</h2>
+      <div><p>Total Score: {{ total_achieved_score }} / {{ total_possible_score }}</p></div>
       <div class="return-button">
-        <a href="assistant" class="btn btn-secondary">Return</a>
+        <a href="usersettings" class="btn btn-secondary">Return</a>
       </div>
       </div>
     </div>

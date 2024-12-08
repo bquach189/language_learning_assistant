@@ -55,8 +55,18 @@ def logout(request):
     return redirect('login')
 
 
-def usersettings(request):
+def user_settings(request):
     return render(request, 'usersettings.html')
+
+
+def view_scores(request):
+    user_score = UserScore.objects.get(user=request.user)
+    score_info = {
+        'total_achieved_score': user_score.total_achieved_score,
+        'total_possible_score': user_score.total_possible_score,
+    }
+    return render(request, 'scores.html', score_info)
+
 
 def get_previous_chats(user):
     return Chat.objects.filter(user=user).order_by('-created_at')[:10]
