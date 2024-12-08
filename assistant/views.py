@@ -55,6 +55,9 @@ def logout(request):
     return redirect('login')
 
 
+def usersettings(request):
+    return render(request, 'usersettings.html')
+
 def get_previous_chats(user):
     return Chat.objects.filter(user=user).order_by('-created_at')[:10]
 

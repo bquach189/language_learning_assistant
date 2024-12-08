@@ -74,7 +74,8 @@
   <div class="card flex-grow-1">
     <div class="card-header text-black">Language Learning Assistant</div>
     {% if user.is_authenticated %}
-    <div class="card-header text-black"><a style="color: #000000" href="logout">Logout</a>
+    <div class="card-header text-black"><a style="color: #000000" href="logout">Logout  |</a>
+    <a style="color: #000000" href="usersettings">Settings</a></div>
     {% else %}
     <div class="card-header text-black"><a style="color: #000000" href="register">Register</a> <a style="color: #000000" href="login">Login</a>
     {% endif %}

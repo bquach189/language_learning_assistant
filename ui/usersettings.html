@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Settings{% endblock %}
+
+{% block styles %}
+<style>
+  body {
+    background-color: #f0f0f0;
+  }
+  .settings-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .card {
+    max-width: 400px;
+  }
+  .card-header {
+    background-color: #000000;
+    color: white;
+    font-size: 24px;
+    font-family: 'Helvetica';
+    font-weight: bold;
+    text-align: center;
+  }
+  .card-body {
+    padding: 30px;
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  label {
+    font-weight: bold;
+    font-family: 'Helvetica';
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="settings-container">
+  <div class="card">
+    <div class="card-header">Settings</div>
+    <div class="card-body">
+      <div class="return-button">
+        <a href="assistant" class="btn btn-secondary">Return</a>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
