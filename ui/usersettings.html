@@ -46,9 +46,11 @@
   <div class="card">
     <div class="card-header">Settings</div>
     <div class="card-body">
+      {% if score_exists %}
       <div class="scores-button">
         <a href="scores" class="btn btn-primary">Scores</a>
       </div>
+      {% endif %}
       <div class="return-button">
         <a href="assistant" class="btn btn-secondary">Return</a>
       </div>

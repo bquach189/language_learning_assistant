@@ -16,12 +16,11 @@ client = OpenAI()
 def register(request):
     if request.method == 'POST':
         username = request.POST['username']
-        email = request.POST['email']
         pw = request.POST['pw']
         confirm_pw = request.POST['confirm_pw']
         if pw == confirm_pw:
             try:
-                user = User.objects.create_user(username, email, pw)
+                user = User.objects.create_user(username, pw)
                 user.save()
                 auth.login(request, user)
                 return redirect('assistant')
@@ -56,7 +55,9 @@ def logout(request):
 
 
 def user_settings(request):
-    return render(request, 'usersettings.html')
+    user_score = UserScore.objects.filter(user=request.user).first()
+    score_exists = user_score is not None and user_score.total_possible_score > 0
+    return render(request, 'usersettings.html', {'score_exists': score_exists})
 
 
 def view_scores(request):
@@ -93,13 +94,13 @@ def call_ai(context, msg, client_instance):
             { "role": "system", "content": "You are a Language Learning Assistant Chatbot. "
                 "Respond to anything language related. Politely refuse to answer anything that isn't language related."
                 "When the user provides answers for the quiz, ensure you are giving answers for the most recent quiz." 
+                "When asked to provide quizzes for languages, please provide 5 questions, giving correct answers and explanations after each question."
                 "When providing feedback for a quiz, always count the number of correct answers out of 5, in this format: 'Quiz Score: 5/5'."
                 "When asked to provide feedback, ensure you give feedback to the precise topic the user is referring to."
                 "When asked to explain a grammar rule, please provide a clear and concise explanation."
                 "When asked to translate a sentence, please provide the translation and a brief explanation of any nuances."
                 "When practicing conversation, please provide feedback on the user's grammar at the end of the conversation."
-                "When asked to provide quizzes for languages, please provide 5 questions, giving correct answers and explanations after each question."
-                
+               
                 "Be polite and friendly." },
             {"role": "user", "content": prompt},       
         ],
