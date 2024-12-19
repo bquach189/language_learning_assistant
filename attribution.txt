@@ -1,0 +1,3 @@
+Attribution:
+- "Django ChatGPT Clone Tutorial" by freeCodeCamp.org
+    - Referenced code to help get started with Django
